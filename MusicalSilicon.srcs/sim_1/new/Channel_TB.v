@@ -5,14 +5,14 @@
 //3) Specify a stopwatch to stop the simulation
 //4) Generate stimuli, using initial and always
 
-module PWMGen_TB();
+module Channel_TB();
 
 reg clk;
 reg reset;
 reg [8:0]dutyCycle;
 wire PWM;
 
-PWM_Generator UUT(.clk(clk), .reset(reset), .dutyCycle(dutyCycle), .PWM(PWM));
+Channel #(8,2) UUT(.clk(clk), .reset(reset), .dutyCycle(dutyCycle), .PWM(PWM));
 
 //Sim Setup
 initial
