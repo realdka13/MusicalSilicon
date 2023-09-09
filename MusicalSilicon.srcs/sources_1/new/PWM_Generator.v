@@ -17,8 +17,7 @@ module PWM_Generator
     F_pwm = 1/(COUNTERTICKS*T_clk)
     */
     #(parameter COUNTERTICKS = 1000)(
-    input clk,
-    input reset,
+    input clk, reset,
     
     /*
     Duty cycle bit calculation { (dutyCycle% * (2^BITLENGTH)) - 1 = dutyCycle }

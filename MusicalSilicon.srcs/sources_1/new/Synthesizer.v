@@ -13,6 +13,23 @@
 
 module Synthesizer
     #(parameter Channels = 1)(
-    input clk
+    input clk, reset
+    
+    input [Channels - 1:0]
+    
+    output[Channels - 1:0] PWM
     );
+    
+//#############################################################
+//Regs & Wires
+//#############################################################  
+
+    genvar i;
+
+//#############################################################
+//Logic
+//#############################################################
+ 
+    Channel #(2000,10) Channels(.clk(clk), .reset(reset), .dutyCycle(), .PWM(PWM[i]));
+    
 endmodule
