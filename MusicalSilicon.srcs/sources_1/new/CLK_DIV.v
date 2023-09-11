@@ -37,7 +37,7 @@ module CLK_DIV
         if(~reset)
             counter <= 0;
         else if(counter >= (DIVISOR-1))
-            counter <= 28'd0;
+            counter <= 0;
         else
             counter <= counter + 1;
     end
