@@ -11,85 +11,71 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-//TODO better phase implementation
-//TODO show math equations as in zipcpu
-//TODO input a frequency
+//TODO Change to quarter table
 
-module SineWaveGen(
+
+/*
+*****Phase*****
+0-2PI -> 0-2^N;    
+phase_digital = phase_rad((2^N)/(2PI)) where N is the number of bits we are using for representation; N = PHASE_BITS
+phase precision = 2PI/(2^PHASE_BITS)
+PHASE_BITS <= 32
+Supply 2^PHASE_BITS worth of data into sine_table.mem
+
+*****Frequency*****
+frequency_hz = 1/((2^N) * 1/clk_freq_hz)    -> Modify the input clock to change the frequency
+clk_freq_hz = frequency_hz * (2^N)
+frequency_precision_hz = clock_freq_hz / 2^PHASE_BITS
+
+*****Amplitude*****
+
+*/
+
+module SineWaveGen
+    #(parameter PHASE_BITS = 5, AMPLITUDE_BITS = 10)(
     input clk, reset,
     
-    output reg [7:0]sine_out    //TODO Bitlength
+    input [PHASE_BITS - 1:0]phase,
+    
+    output reg [AMPLITUDE_BITS - 1:0]sine_out
     );
     
-    
-  //#############################################################
-  //Regs & Wires
-  //#############################################################
+    //#############################################################
+    //Regs & Wires
+    //#############################################################
   
-  //32 byes of ROM
-  reg [7:0] sine [0:31];    //TODO change sine bytes to param, TODO play with bit length
+    //32 byes of ROM
+    reg [AMPLITUDE_BITS - 1:0] sine [0:2**PHASE_BITS - 1];  //Need sine values for every possible phase value
   
-  //To keep track of current phase
-  integer i;
+    //To keep track of current phase
+    integer i;
   
-  //#############################################################
-  //Fill ROM    //TODO change to memory file    // TODO Change to quarter table
-  //#############################################################
-  
-  initial begin
-    sine[0] = 0;
-    sine[1] = 15;
-    sine[2] = 30;
-    sine[3] = 43;
-    sine[4] = 55;
-    sine[5] = 65;
-    sine[6] = 72;
-    sine[7] = 77;
-    sine[8] = 78;
-    sine[9] = 77;
-    sine[10] = 72;
-    sine[11] = 65;
-    sine[12] = 55;
-    sine[13] = 43;
-    sine[14] = 30;
-    sine[15] = 15;
-    sine[16] = 0;
-    sine[17] = -15;
-    sine[18] = -30;
-    sine[19] = -43;
-    sine[20] = -55;
-    sine[21] = -65;
-    sine[22] = -72;
-    sine[23] = -77;
-    sine[24] = -78;
-    sine[25] = -77;
-    sine[26] = -72;
-    sine[27] = -65;
-    sine[28] = -55;
-    sine[29] = -43;
-    sine[30] = -30;
-    sine[31] = -15;
-  end
-  
+    //#############################################################
+    //Read from MEM
+    //#############################################################
+
+    //ROM
+    initial $readmemh("C:/Users/donov/Desktop/DonovanMPersonalFiles/_GitStored/FPGA/MusicalSilicon/MusicalSilicon/MusicalSilicon.srcs/sources_1/new/sine_table.mem", sine);
+
   //#############################################################
   //Logic
   //#############################################################
   
-  always@(posedge clk)
-  begin
-    if(~reset)
+    always@(posedge clk, negedge reset)
     begin
-        i <= 0;
-        sine_out <= 0;
-    end
+        if(~reset)
+        begin
+            i <= phase;
+            sine_out <= sine[i];
+        end
     else
     begin
         sine_out <= sine[i];
-        if(i == 31)
+        if(i == 2**PHASE_BITS - 1)
             i <= 0;
         else
             i = i + 1;
     end
-  end
+    end
   
 endmodule

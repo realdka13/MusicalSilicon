@@ -85,6 +85,7 @@ set_property ip_output_repo c:/Users/donov/Desktop/DonovanMPersonalFiles/_GitSto
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
+read_mem C:/Users/donov/Desktop/DonovanMPersonalFiles/_GitStored/FPGA/MusicalSilicon/MusicalSilicon/MusicalSilicon.srcs/sources_1/new/sine_table.mem
 read_verilog -library xil_defaultlib C:/Users/donov/Desktop/DonovanMPersonalFiles/_GitStored/FPGA/MusicalSilicon/MusicalSilicon/MusicalSilicon.srcs/sources_1/new/SineWaveGen.v
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being

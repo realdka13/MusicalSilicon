@@ -11,7 +11,7 @@ module SinWaveGen_TB();
 reg clk, reset;
 wire [7:0]sine_out;
 
-SineWaveGen sine_wave(.clk(clk), .reset(reset), .sine_out(sine_out));
+SineWaveGen #(5, 8) sine_wave(.clk(clk), .reset(reset), .sine_out(sine_out), .phase(16));
 
 //Sim Setup
 initial
