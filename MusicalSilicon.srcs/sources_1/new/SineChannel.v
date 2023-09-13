@@ -7,7 +7,7 @@
 // Project Name: MusicalSilicon
 // Target Devices:
 // Tool Versions: Vivado 2023.1
-// Description: A signle audio channel, which outputs a changing PWM signal
+// Description: A signle audio channel, which outputs a sine wave
 //////////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -25,7 +25,7 @@ frequency_precision_hz = clock_freq_hz / 2^PHASE_BITS
 */
 
 module SineChannel
-    #(parameter PHASE_BITS = 5, AMPLITUDE_BITS = 10, DIVISOR = 2)(
+    #(parameter PHASE_BITS = 5, AMPLITUDE_BITS = 8, DIVISOR = 2)(
     input clk, reset,
     
     input [PHASE_BITS - 1:0]phase,

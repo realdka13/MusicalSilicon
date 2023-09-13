@@ -41,4 +41,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log SineWaveGen.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source SineWaveGen.tcl
+EAStep vivado -log Synthesizer.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source Synthesizer.tcl

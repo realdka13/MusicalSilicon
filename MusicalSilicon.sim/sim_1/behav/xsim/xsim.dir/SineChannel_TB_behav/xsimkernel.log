@@ -2,3 +2,6 @@ Running: xsim.dir/SineChannel_TB_behav/xsimk.exe -simmode gui -wdb SineChannel_T
 Design successfully loaded
 Design Loading Memory Usage: 7324 KB (Peak: 7324 KB)
 Design Loading CPU Usage: 15 ms
+Simulation completed
+Simulation Memory Usage: 14284 KB (Peak: 14284 KB)
+Simulation CPU Usage: 296 ms
