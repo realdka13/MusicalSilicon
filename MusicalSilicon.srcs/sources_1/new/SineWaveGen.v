@@ -3,7 +3,7 @@
 // Engineer: Donovan Magney
 //
 // Create Date: 09/10/2023 07:22:48 PM
-// Module Name: Channel
+// Module Name: SineWaveGen
 // Project Name: MusicalSilicon
 // Target Devices:
 // Tool Versions: Vivado 2023.1

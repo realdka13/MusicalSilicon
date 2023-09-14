@@ -10,7 +10,6 @@
 // Description: Divides the clock
 //////////////////////////////////////////////////////////////////////////////////
 
-
 module CLK_DIV
     /*
     DIVISOR: Divide the clock frequency by this parameter
@@ -42,13 +41,23 @@ module CLK_DIV
             counter <= counter + 1;
     end
     
-    //Output
+    //Divided Output
     always @(posedge clk_in, negedge reset)
     begin
-        if(~reset)
-            clk_out <= 0;
-        else
-            clk_out <= (counter < DIVISOR/2) ? 1'b1:1'b0;
+        if(DIVISOR != 1)
+        begin
+            if(~reset)
+                clk_out <= 0;
+            else
+                clk_out <= (counter < DIVISOR/2) ? 1'b1:1'b0;
+        end
+    end
+    
+    //Passthrough Output - Catch for a clock that is meant to be un divided, so just pass the clk through
+    always @(posedge clk_in, negedge clk_in)
+    begin
+        if(DIVISOR == 1)
+            clk_out <= clk_in;
     end
     
 endmodule  

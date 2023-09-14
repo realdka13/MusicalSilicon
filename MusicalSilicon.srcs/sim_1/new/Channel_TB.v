@@ -14,7 +14,7 @@ wire PWM;
 integer i;
 integer bool;
 
-PWMChannel #(1000,100) UUT(.clk(clk), .reset(reset), .dutyCycle(dutyCycle), .PWM(PWM));
+PWMChannel #(10,1) UUT(.clk(clk), .reset(reset), .counterMax('d1000), .dutyCycle(dutyCycle), .PWM(PWM));
 
 //Sim Setup
 initial

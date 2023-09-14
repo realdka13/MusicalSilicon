@@ -13,7 +13,15 @@ reg clk, reset;
 wire PWM_OUT;
 wire [7:0]SINE_OUT;
 
-Synthesizer synth(.clk(clk), .reset(reset), .PWM_OUT(PWM_OUT), .SINE_OUT(SINE_OUT));
+Synthesizer UUT(.clk(clk), .reset(reset),
+ .PWMcounterMax1('d1000), .PWMdutyCycle1('d500), 
+ .PWMcounterMax2('d5000), .PWMdutyCycle2('d2500),
+ .PWMcounterMax3('d10000), .PWMdutyCycle3('d5000),
+ .PWMcounterMax4('d15000), .PWMdutyCycle4('d7500),
+ .PWMcounterMax5('d20000), .PWMdutyCycle5('d10000),
+ 
+ 
+ .PWM_OUT(PWM_OUT), .SINE_OUT(SINE_OUT));
 
 //Clk
 initial clk = 'b0;

@@ -10,17 +10,30 @@
 // Description: Generates changing PWM and sine signals
 //////////////////////////////////////////////////////////////////////////////////
 
-//TODO Rename PHASE_BITS
+
 //TODO change frequency selection parameters to inputs somehow
 //TODO complete TODOs from other files
 //TODO Comments -> Fiugre out frequency granularity as freq changes (on analog)
 //Input/Output on actual board
 
-module Synthesizer
-    #(parameter ANALOG_CHANNELS = 5, PWM_CHANNELS = 6)(
+module Synthesizer(
     input clk, reset,
     
     //Audio controls
+    input [15:0]PWMcounterMax1,
+    input [16:0]PWMdutyCycle1,
+    
+    input [15:0]PWMcounterMax2,
+    input [16:0]PWMdutyCycle2,
+    
+    input [15:0]PWMcounterMax3,
+    input [16:0]PWMdutyCycle3,
+    
+    input [15:0]PWMcounterMax4,
+    input [16:0]PWMdutyCycle4,
+    
+    input [15:0]PWMcounterMax5,
+    input [16:0]PWMdutyCycle5,
     //[:]phase;
     
     output PWM_OUT,
@@ -31,28 +44,24 @@ module Synthesizer
 //Regs & Wires
 //#############################################################  
 
-    wire [0:PWM_CHANNELS - 1]pwm_out;
-    wire [7:0] sine_out [0:ANALOG_CHANNELS - 1];
-    
-    genvar i;
+    wire [0:4]pwm_out;
+    wire [0:4]sine_out;
 
 //#############################################################
 //Logic
 //#############################################################
-
-    generate
+   
+    PWMChannel #(16,1) PWM_Channel1(.clk(clk), .reset(reset), .counterMax(PWMcounterMax1), .dutyCycle(PWMdutyCycle1), .PWM(pwm_out[0]));
+    PWMChannel #(16,1) PWM_Channel2(.clk(clk), .reset(reset), .counterMax(PWMcounterMax2), .dutyCycle(PWMdutyCycle2), .PWM(pwm_out[1]));
+    PWMChannel #(16,1) PWM_Channel3(.clk(clk), .reset(reset), .counterMax(PWMcounterMax3), .dutyCycle(PWMdutyCycle3), .PWM(pwm_out[2]));
+    PWMChannel #(16,1) PWM_Channel4(.clk(clk), .reset(reset), .counterMax(PWMcounterMax4), .dutyCycle(PWMdutyCycle4), .PWM(pwm_out[3]));
+    PWMChannel #(16,1) PWM_Channel5(.clk(clk), .reset(reset), .counterMax(PWMcounterMax5), .dutyCycle(PWMdutyCycle5), .PWM(pwm_out[4]));
     
-    for(i = 0; i < PWM_CHANNELS; i = i + 1)
-    begin
-        PWMChannel #() PWM_Channel(.clk(clk), .reset(reset), .dutyCycle(), .PWM(pwm_out[i]));
-    end
-    
-    for(i = 0; i < ANALOG_CHANNELS; i = i + 1)
-    begin
-        SineChannel #() sine_wave(.clk(clk), .reset(reset), .phase(0), .sine_out(sine_out[i]));
-    end
-    
-    endgenerate
+    //SineChannel #() sine_wave1(.clk(clk), .reset(reset), .phase(0), .sine_out(sine_out[0]));
+    //SineChannel #() sine_wave2(.clk(clk), .reset(reset), .phase(0), .sine_out(sine_out[1]));
+    //SineChannel #() sine_wave3(.clk(clk), .reset(reset), .phase(0), .sine_out(sine_out[2]));
+    //SineChannel #() sine_wave4(.clk(clk), .reset(reset), .phase(0), .sine_out(sine_out[3]));
+    //SineChannel #() sine_wave5(.clk(clk), .reset(reset), .phase(0), .sine_out(sine_out[4]));
     
     //Output
     assign PWM_OUT = |pwm_out;  

@@ -13,18 +13,19 @@
 
 module PWM_Generator
     /*
-    COUNTERTICKS: The amount of ticks for the counter. To get this value, use: COUNTERTICKS = 1/(f_pwm*T_clk)
+    COUNTEBITS: The amount of bits for the counterMax input. 
     F_pwm = 1/(COUNTERTICKS*T_clk)
     */
-    #(parameter COUNTERTICKS = 1000)(
+    #(parameter COUNTERBITS = 10)(
     input clk, reset,
     
     /*
-    Duty cycle bit calculation { (dutyCycle% * (2^BITLENGTH)) - 1 = dutyCycle }
+    Duty cycle bit calculation { (dutyCycle% * (2^COUNTERBITS)) - 1 = dutyCycle }
     Duty Cycle must be 1 bit larger than the counter to avoid a single cycle drop when at 100% duty cycle
     For 100% duty cycle, add 1 to the max counter value
     */
-    input [ $clog2(COUNTERTICKS):0] dutyCycle,
+    input [COUNTERBITS-1:0]counterMax,     //To get this value, use: counterMax = 1/(f_pwm*T_clk)
+    input [COUNTERBITS:0] dutyCycle,
     
     //Single Bit Output
     output reg PWM   //PWM is a reg to avoid glitches
@@ -35,7 +36,7 @@ module PWM_Generator
 //#############################################################  
     
     //Counter
-    reg [ $clog2(COUNTERTICKS) - 1:0] counter, counter_Next;
+    reg [COUNTERBITS:0] counter, counter_Next;
     
 //#############################################################
 //Logic
@@ -55,7 +56,7 @@ module PWM_Generator
     begin
         if(~reset)
             counter_Next <= 1;
-        else if(counter_Next >= COUNTERTICKS)
+        else if(counter_Next >= counterMax)
             counter_Next <= 0;
         else
             counter_Next <= counter_Next + 1;

@@ -10,17 +10,13 @@ module PWMGen_TB();
 reg clk;
 reg reset;
 reg [31:0]dutyCycle;
+reg [15:0]counterMax;
+
 wire PWM;
 integer i;
 integer bool;
 
-PWM_Generator #(1000) UUT(.clk(clk), .reset(reset), .dutyCycle(dutyCycle), .PWM(PWM));
-
-//Sim Setup
-initial
-begin
-    #2100 $finish;
-end
+PWM_Generator #(16) UUT(.clk(clk), .reset(reset), .counterMax(counterMax), .dutyCycle(dutyCycle), .PWM(PWM));
 
 //Clk
 initial clk = 'b0;
@@ -31,7 +27,8 @@ initial
 begin
     bool = 1;
     reset = 'b1;
-    dutyCycle = 'd500;
+    counterMax = 'd100;
+    dutyCycle = 'd25;
     
     
     #0.0010
@@ -40,17 +37,17 @@ begin
     reset = 'b1;
     
     //Basic
-    /*
+    ///*
     #25
-    dutyCycle = 'd500;
+    dutyCycle = 'd50;
     #25
-    dutyCycle = 'd750;
+    dutyCycle = 'd75;
     #25
-    dutyCycle = 'd1001;
-    */
+    dutyCycle = 'd101;
+    //*/
     
     //Oscillations
-    ///*
+    /*
     for(i = 0; i <= 80; i = i + 1)
     begin
         #10
@@ -69,7 +66,7 @@ begin
                 dutyCycle = dutyCycle - 10;
         end
     end
-    //*/
+    */
 end
 
 endmodule

@@ -13,12 +13,12 @@
 
 module PWMChannel
   /*
-  COUNTERTICKS: The amount of ticks for the PWM counter. To get this value, use: COUNTERTICKS = 1/(f_pwm*T_clk)
+  COUNTEBITS: The amount of bits for the counterMax input. 
   DIVISOR: Divide the clock frequency by this parameter
 
-  F_pwm =  = 1/(T_clk*DIVISOR*COUNTERTICKS)
+  F_pwm =  = 1/(T_clk*DIVISOR*COUNTERMAX)
   */
-  #(parameter COUNTERTICKS = 1000, DIVISOR = 1)( //Defaults to 5kHz
+  #(parameter COUNTERBITS = 10, DIVISOR = 1)(
      input clk, reset,
 
      /*
@@ -26,10 +26,10 @@ module PWMChannel
      Duty Cycle must be 1 bit larger than the counter to avoid a single cycle drop when at 100% duty cycle
      For 100% duty cycle, add 1 to the max counter value
      */
-     input [ $clog2(COUNTERTICKS):0] dutyCycle,
+     input [COUNTERBITS:0] dutyCycle,
+     input [COUNTERBITS-1:0]counterMax,     //To get this value, use: counterMax = 1/(f_pwm*T_clk)
 
-     output PWM,
-     output AUD_EN
+     output PWM
    );
 
   //#############################################################
@@ -41,9 +41,8 @@ module PWMChannel
   //#############################################################
   //Logic
   //#############################################################
-  assign AUD_EN = 1;
 
   CLK_DIV #(DIVISOR) clockDiv(.clk_in(clk), .reset(reset), .clk_out(divided_clk));
-  PWM_Generator #(COUNTERTICKS) PWMGen(.clk(divided_clk), .reset(reset), .dutyCycle('d900), .PWM(PWM));
+  PWM_Generator #(COUNTERBITS) PWMGen(.clk(divided_clk), .reset(reset), .counterMax(counterMax), .dutyCycle(dutyCycle), .PWM(PWM));
 
 endmodule

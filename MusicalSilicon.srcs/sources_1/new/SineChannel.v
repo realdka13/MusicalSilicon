@@ -3,7 +3,7 @@
 // Engineer: Donovan Magney
 //
 // Create Date: 09/12/2023 03:04:37 PM
-// Module Name: Channel
+// Module Name: SineChannel
 // Project Name: MusicalSilicon
 // Target Devices:
 // Tool Versions: Vivado 2023.1
@@ -25,10 +25,11 @@ frequency_precision_hz = clock_freq_hz / 2^PHASE_BITS
 */
 
 module SineChannel
-    #(parameter PHASE_BITS = 5, AMPLITUDE_BITS = 8, DIVISOR = 2)(
+    #(parameter PHASE_BITS = 5, AMPLITUDE_BITS = 8, COUNTER_BITS = 10, DIVISOR = 2)(
     input clk, reset,
     
     input [PHASE_BITS - 1:0]phase,
+    input [COUNTER_BITS - 1:0]counterMax,
     
     output [AMPLITUDE_BITS - 1:0]sine_out
     );
@@ -37,14 +38,15 @@ module SineChannel
   //Regs & Wires
   //#############################################################
 
-  wire divided_clk;
+  wire divided_clk, counted_clk;
   
   //#############################################################
   //Logic
   //#############################################################
   
     CLK_DIV #(DIVISOR) clockDiv(.clk_in(clk), .reset(reset), .clk_out(divided_clk));
-    SineWaveGen #(PHASE_BITS, AMPLITUDE_BITS) sine_wave(.clk(divided_clk), .reset(reset), .sine_out(sine_out), .phase(phase));
+    TogglingUpCounter #(COUNTER_BITS) counter(.clk_in(divided_clk), .reset(reset), .counterMax(counterMax), .Q(counted_clk));
+    SineWaveGen #(PHASE_BITS, AMPLITUDE_BITS) sine_wave(.clk(counted_clk), .reset(reset), .sine_out(sine_out), .phase(phase));
     
     
 endmodule
