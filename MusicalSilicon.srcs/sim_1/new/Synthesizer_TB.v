@@ -20,6 +20,13 @@ Synthesizer UUT(.clk(clk), .reset(reset),
  .PWMcounterMax4('d15000), .PWMdutyCycle4('d7500),
  .PWMcounterMax5('d20000), .PWMdutyCycle5('d10000),
  
+ .phase1('d0),
+ .counterMax1('d1000),
+ .phase2('d8), .counterMax2('d5000),
+ .phase3('d16), .counterMax3('d10000),
+ .phase4('d24), .counterMax4('d15000),
+ .phase5('d0), .counterMax5('d20000),
+ 
  
  .PWM_OUT(PWM_OUT), .SINE_OUT(SINE_OUT));
 

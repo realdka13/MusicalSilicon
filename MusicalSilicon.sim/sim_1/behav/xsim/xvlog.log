@@ -4,6 +4,10 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/donov/Desktop/DonovanMPers
 INFO: [VRFC 10-311] analyzing module PWMChannel
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/donov/Desktop/DonovanMPersonalFiles/_GitStored/FPGA/MusicalSilicon/MusicalSilicon/MusicalSilicon.srcs/sources_1/new/PWM_Generator.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module PWM_Generator
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/donov/Desktop/DonovanMPersonalFiles/_GitStored/FPGA/MusicalSilicon/MusicalSilicon/MusicalSilicon.srcs/sources_1/new/SineChannel.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module SineChannel
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/donov/Desktop/DonovanMPersonalFiles/_GitStored/FPGA/MusicalSilicon/MusicalSilicon/MusicalSilicon.srcs/sources_1/new/SineWaveGen.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module SineWaveGen
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/donov/Desktop/DonovanMPersonalFiles/_GitStored/FPGA/MusicalSilicon/MusicalSilicon/MusicalSilicon.srcs/sources_1/new/Synthesizer.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module Synthesizer
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/donov/Desktop/DonovanMPersonalFiles/_GitStored/FPGA/MusicalSilicon/MusicalSilicon/MusicalSilicon.srcs/sim_1/new/Synthesizer_TB.v" into library xil_defaultlib
