@@ -3,6 +3,8 @@ verilog xil_defaultlib  \
 "../../../../MusicalSilicon.srcs/sources_1/new/CLK_DIV.v" \
 "../../../../MusicalSilicon.srcs/sources_1/new/PWMChannel.v" \
 "../../../../MusicalSilicon.srcs/sources_1/new/PWM_Generator.v" \
+"../../../../MusicalSilicon.srcs/sources_1/new/SineChannel.v" \
+"../../../../MusicalSilicon.srcs/sources_1/new/SineWaveGen.v" \
 "../../../../MusicalSilicon.srcs/sources_1/new/Synthesizer.v" \
 "../../../../MusicalSilicon.srcs/sim_1/new/Synthesizer_TB.v" \
 

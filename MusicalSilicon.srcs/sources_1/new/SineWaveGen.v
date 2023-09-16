@@ -32,9 +32,10 @@ frequency_precision_hz = clock_freq_hz / 2^PHASE_BITS
 */
 
 module SineWaveGen
-    #(parameter PHASE_BITS = 5, AMPLITUDE_BITS = 10)(
+    #(parameter PHASE_BITS = 5, AMPLITUDE_BITS = 10, COUNTERBITS = 16)(
     input clk, reset,
     
+    input [COUNTERBITS - 1:0]counterMax,
     input [PHASE_BITS - 1:0]phase,
     
     output reg [AMPLITUDE_BITS - 1:0]sine_out
@@ -46,7 +47,11 @@ module SineWaveGen
   
     //32 byes of ROM
     reg [AMPLITUDE_BITS - 1:0] sine [0:2**PHASE_BITS - 1];  //Need sine values for every possible phase value
-  
+    
+    //Counter
+    reg [COUNTERBITS - 1:0]counter, counterNext;
+    reg counterClk;
+    
     //To keep track of current phase
     integer i;
   
@@ -61,7 +66,37 @@ module SineWaveGen
   //Logic
   //#############################################################
   
-    always@(posedge clk, negedge reset)
+  //Freq counter
+  always@(posedge clk, negedge reset)
+  begin
+    if(~reset)
+        counter <= 0;
+    else
+        counter <= counterNext;
+  end
+  
+  //Freq counter Next
+  always@(posedge clk, negedge reset)
+  begin
+      if(~reset)
+        counterNext <= 1;
+      else if(counterNext >= counterMax)
+        counterNext <= 0;
+      else
+        counterNext <= counterNext + 1;
+  end
+  
+  //Counter output
+  always @(posedge clk, negedge reset)
+  begin
+    if(~reset)
+        counterClk <= 0;
+    else if(counter == counterMax)
+        counterClk <= ~counterClk;
+  end
+  
+  //Sine Wave
+    always@(posedge counterClk, negedge counterClk, negedge reset)
     begin
         if(~reset)
         begin

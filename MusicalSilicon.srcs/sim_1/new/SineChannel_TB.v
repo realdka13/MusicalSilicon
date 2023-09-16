@@ -10,23 +10,18 @@ module SineChannel_TB();
 //4) Generate stimuli, using initial and always
 
 reg clk, reset;
-reg [4:0]phase;
+//reg [4:0]phase;
 
 wire [7:0]sine_out1;
 wire [7:0]sine_out2;
 wire [7:0]sine_out3;
 wire [7:0]sine_out4;
 
-SineChannel #(5, 10, 1250) sine_wave1(.clk(clk), .reset(reset), .sine_out(sine_out1), .phase(0));
-SineChannel #(5, 10, 625) sine_wave2(.clk(clk), .reset(reset), .sine_out(sine_out2), .phase(8));
-SineChannel #(5, 10, 400) sine_wave3(.clk(clk), .reset(reset), .sine_out(sine_out3), .phase(16));
-SineChannel #(5, 10, 250) sine_wave4(.clk(clk), .reset(reset), .sine_out(sine_out4), .phase(24));
+SineChannel #(5, 10, 16) sine_wave1(.clk(clk), .reset(reset), .counterMax('d1000), .sine_out(sine_out1), .phase(0));
+SineChannel #(5, 10, 16) sine_wave2(.clk(clk), .reset(reset), .counterMax('d5000), .sine_out(sine_out2), .phase(8));
+SineChannel #(5, 10, 16) sine_wave3(.clk(clk), .reset(reset), .counterMax('d10000), .sine_out(sine_out3), .phase(16));
+SineChannel #(5, 10, 16) sine_wave4(.clk(clk), .reset(reset), .counterMax('d15000), .sine_out(sine_out4), .phase(24));
 
-//Sim Setup
-initial
-begin
-    #4100 $finish;
-end
 
 //Clk
 initial clk = 'b0;

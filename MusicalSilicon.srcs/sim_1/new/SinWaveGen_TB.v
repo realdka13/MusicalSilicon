@@ -9,15 +9,11 @@ module SinWaveGen_TB();
 //4) Generate stimuli, using initial and always
 
 reg clk, reset;
-wire [7:0]sine_out;
+wire [7:0]sine_out,sine_out2,sine_out3;
 
-SineWaveGen #(5, 8) sine_wave(.clk(clk), .reset(reset), .sine_out(sine_out), .phase(16));
-
-//Sim Setup
-initial
-begin
-    #4100 $finish;
-end
+SineWaveGen #(5, 10, 16) sine_wave(.clk(clk), .reset(reset), .counterMax('d1000), .sine_out(sine_out), .phase(0));
+SineWaveGen #(5, 10, 16) sine_wave2(.clk(clk), .reset(reset), .counterMax('d5000), .sine_out(sine_out2), .phase(0));
+SineWaveGen #(5, 10, 16) sine_wave3(.clk(clk), .reset(reset), .counterMax('d10000), .sine_out(sine_out3), .phase(0));
 
 //Clk
 initial clk = 'b0;
