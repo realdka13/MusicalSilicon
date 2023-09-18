@@ -10,10 +10,7 @@
 // Description: Generates changing PWM and sine signals
 //////////////////////////////////////////////////////////////////////////////////
 
-
-//TODO change frequency selection parameters to inputs somehow
 //TODO complete TODOs from other files
-//TODO Comments -> Fiugre out frequency granularity as freq changes (on analog)
 //Input/Output on actual board
 
 module Synthesizer(
@@ -75,11 +72,11 @@ module Synthesizer(
     PWMChannel #(16,1) PWM_Channel4(.clk(clk), .reset(reset), .counterMax(PWMcounterMax4), .dutyCycle(PWMdutyCycle4), .PWM(pwm_out[3]));
     PWMChannel #(16,1) PWM_Channel5(.clk(clk), .reset(reset), .counterMax(PWMcounterMax5), .dutyCycle(PWMdutyCycle5), .PWM(pwm_out[4]));
     
-    SineChannel #(5,10,16,2) sine_wave1(.clk(clk), .reset(reset), .phase(phase1), .counterMax(counterMax1), .sine_out(sine_out1));
-    SineChannel #(5,10,16,2) sine_wave2(.clk(clk), .reset(reset), .phase(phase2), .counterMax(counterMax2), .sine_out(sine_out2));
-    SineChannel #(5,10,16,2) sine_wave3(.clk(clk), .reset(reset), .phase(phase3), .counterMax(counterMax3), .sine_out(sine_out3));
-    SineChannel #(5,10,16,2) sine_wave4(.clk(clk), .reset(reset), .phase(phase4), .counterMax(counterMax4), .sine_out(sine_out4));
-    SineChannel #(5,10,16,2) sine_wave5(.clk(clk), .reset(reset), .phase(phase5), .counterMax(counterMax5), .sine_out(sine_out5));
+    SineChannel #(5,8,16,1) sine_wave1(.clk(clk), .reset(reset), .phase(phase1), .counterMax(counterMax1), .sine_out(sine_out1));
+    SineChannel #(5,8,16,1) sine_wave2(.clk(clk), .reset(reset), .phase(phase2), .counterMax(counterMax2), .sine_out(sine_out2));
+    SineChannel #(5,8,16,1) sine_wave3(.clk(clk), .reset(reset), .phase(phase3), .counterMax(counterMax3), .sine_out(sine_out3));
+    SineChannel #(5,8,16,1) sine_wave4(.clk(clk), .reset(reset), .phase(phase4), .counterMax(counterMax4), .sine_out(sine_out4));
+    SineChannel #(5,8,16,1) sine_wave5(.clk(clk), .reset(reset), .phase(phase5), .counterMax(counterMax5), .sine_out(sine_out5));
     
     //Output
     assign PWM_OUT = |pwm_out;  

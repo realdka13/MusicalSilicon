@@ -11,28 +11,38 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-//TODO Change to quarter table
+//TODO Change to quarter table for the sine wave
 
 
 /*
+*****Frequency*****
+f_sin = f_clk/(counterMax*(2^PHASE_BITS))
+counterMax = f_clk/(f_sin*(2^PHASE_BITS))
+
+*****Freq Precision*****
+Plug in f_pwm = f_sin = f_clk/(counterMax*(2^PHASE_BITS)) into a graphing calculator. High freq have lower precision than lower freq
+
 *****Phase*****
 0-2PI -> 0-2^N;    
 phase_digital = phase_rad((2^N)/(2PI)) where N is the number of bits we are using for representation; N = PHASE_BITS
-phase precision = 2PI/(2^PHASE_BITS)
-PHASE_BITS <= 32
-Supply 2^PHASE_BITS worth of data into sine_table.mem
 
-*****Frequency*****
-frequency_hz = 1/((2^N) * 1/clk_freq_hz)    -> Modify the input clock to change the frequency
-clk_freq_hz = frequency_hz * (2^N)
-frequency_precision_hz = clock_freq_hz / 2^PHASE_BITS
+phase precision = 2PI/(2^PHASE_BITS)
+
+Supply 2^PHASE_BITS worth of data into sine_table.mem
 
 *****Amplitude*****
 
+*****Parameters*****
+PHASE_BITS: The granularity of the supplied sine wave data. For a total of 2^PHASE_BITS values
+    Default: 5; For 32 data points for sine
+AMPLITUDE_BITS: The range of integers the amplitude of the sine wave will span, from 0 to 2^AMPLITUDE_BITS
+    Default: 8; The amplitude of the sine wave will fall between 0 and 255
+COUNTERBITS: The maximum value for the counters
+    Defaults: 16; for a max counter value of 65536
 */
 
 module SineWaveGen
-    #(parameter PHASE_BITS = 5, AMPLITUDE_BITS = 10, COUNTERBITS = 16)(
+    #(parameter PHASE_BITS = 5, AMPLITUDE_BITS = 8, COUNTERBITS = 16)(
     input clk, reset,
     
     input [COUNTERBITS - 1:0]counterMax,
@@ -95,7 +105,7 @@ module SineWaveGen
         counterClk <= ~counterClk;
   end
   
-  //Sine Wave
+  //Sine Wave Generator -> i is the index into the sine wave data
     always@(posedge counterClk, negedge counterClk, negedge reset)
     begin
         if(~reset)

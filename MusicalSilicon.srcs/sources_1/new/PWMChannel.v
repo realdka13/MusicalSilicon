@@ -10,27 +10,35 @@
 // Description: A signle audio channel, which outputs a changing PWM signal
 //////////////////////////////////////////////////////////////////////////////////
 
+/*
+*****Frequency*****
+counterMax = f_clk/(DIVISOR * f_pwm)
+f_pwm = f_clk/(DIVISOR * counterMax)
+
+*****Freq Precision*****
+Plug in f_pwm = f_clk/(DIVISOR * counterMax) into a graphing calculator. High freq have lower precision than lower freq
+
+*****Duty Cycle*****
+The duty cycle is the counter value at which the output switches from high to low
+Duty Cycle must be 1 bit larger than counterMax to avoid a single clk cycle drop when at 100% duty cycle
+For 100% duty cycle, add 1 to the max counter value
+
+*****Parameters*****
+COUNTEBITS: The amount of bits required for the counter.
+    Default: 16, for a max value of 65536
+DIVISOR: Divide the clock frequency by this parameter
+    Default: 1, the clock is passed through and has the highest high freq precision
+*/
 
 module PWMChannel
-  /*
-  COUNTEBITS: The amount of bits for the counterMax input. 
-  DIVISOR: Divide the clock frequency by this parameter
+  #(parameter COUNTERBITS = 16, DIVISOR = 1)(
+  input clk, reset,
 
-  F_pwm =  = 1/(T_clk*DIVISOR*COUNTERMAX)
-  */
-  #(parameter COUNTERBITS = 10, DIVISOR = 1)(
-     input clk, reset,
+  input [COUNTERBITS-1:0]counterMax,
+  input [COUNTERBITS:0] dutyCycle,
 
-     /*
-     Duty cycle bit calculation { (dutyCycle% * (2^BITLENGTH)) - 1 = dutyCycle }
-     Duty Cycle must be 1 bit larger than the counter to avoid a single cycle drop when at 100% duty cycle
-     For 100% duty cycle, add 1 to the max counter value
-     */
-     input [COUNTERBITS:0] dutyCycle,
-     input [COUNTERBITS-1:0]counterMax,     //To get this value, use: counterMax = 1/(f_pwm*T_clk)
-
-     output PWM
-   );
+  output PWM
+  );
 
   //#############################################################
   //Regs & Wires
